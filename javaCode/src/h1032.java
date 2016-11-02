@@ -16,9 +16,7 @@ public class h1032 {
             for(int i=1;i<p.length;i++){
                 if(i>=maxId){
                     int j;
-                    for(j=1;i+j<p.length && i-j>=0 && s.charAt(i+j)==s.charAt(i-j) ;j++){
-
-                    }
+                    for(j=1;i+j<p.length && i-j>=0 && s.charAt(i+j)==s.charAt(i-j) ;j++);
                     p[i]=j;
                 }else{
                     int left=2*maxCenter-i;
@@ -26,9 +24,7 @@ public class h1032 {
                         p[i]=p[left];
                     }else{
                         int j;
-                        for(j=maxId-i;i+j<p.length && i-j>=0 && s.charAt(i+j)==s.charAt(i-j) ;j++){
-
-                        }
+                        for(j=maxId-i;i+j<p.length && i-j>=0 && s.charAt(i+j)==s.charAt(i-j) ;j++);
                         p[i]=j;
                     }
                 }
