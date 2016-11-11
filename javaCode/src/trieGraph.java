@@ -2,11 +2,12 @@
  * Created by hhy on 2016/11/10.
  */
 
-public class trieGraph {
+class trieGraph {
 
     public trieGraph[] child;
     public int wordsNum;
     public boolean mark;
+    public trieGraph trie;
     public trieGraph father;
     public trieGraph[] next;
     public char letter;
@@ -23,8 +24,8 @@ public class trieGraph {
         this.wordsNum+=1;
         if(this.child[c-'a']==null){
             this.child[c-'a']=new trieGraph();
-            this.child[c-'a'].father=this;
             this.child[c-'a'].letter=c;
+            this.child[c-'a'].father=this;
         }
         return this.child[c-'a'];
     }
@@ -36,20 +37,29 @@ public class trieGraph {
         now.wordsNum+=1;
         now.mark=true;
     }
-    public int lookup(String s){
+    public boolean lookup(String s){
         trieGraph now=this;
         for(int i=0;now!=null && i<s.length();i++){
-            now=now.child[s.charAt(i)-'a'];
+            if(now.mark) return true;
+            now=now.next[s.charAt(i)-'a'];
         }
-        if(now==null) return 0;
-        return now.wordsNum;
+        return false;
     }
 
     public void genNext(){
+        if(this==null) return;
+        if(this.father==this ){
+            this.trie=this;
+        }else if( this.father.father==this.father){
+            this.trie=this.father;
+        }
+        else{
+            this.trie=this.father.trie.next[this.letter-'a'];
+        }
         for(int i=0;i<='z'-'a';i++){
             if(this.child[i]==null){
                 if(this.father!=this){
-                    this.next[i]=this.father.next[this.letter-'a'].next[i];
+                    this.next[i]=this.trie.next[i];
                 }else {
                     this.next[i]=this;
                 }

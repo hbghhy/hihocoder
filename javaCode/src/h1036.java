@@ -30,7 +30,7 @@ public class h1036 {
             }
         }
         String s=scanner.next();
-
+        System.out.println(root.lookup(s));
 
 
     }
