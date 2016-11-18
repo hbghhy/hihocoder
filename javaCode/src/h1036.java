@@ -1,4 +1,3 @@
-import sun.reflect.annotation.AnnotationSupport;
 
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -7,6 +6,7 @@ import java.util.Scanner;
  * Created by hhy on 2016/11/10.
  */
 public class h1036 {
+
     public static void main(String[] args) {
         //trieTree
 

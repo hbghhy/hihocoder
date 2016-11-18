@@ -3,70 +3,78 @@
  */
 
 class trieGraph {
-
     public trieGraph[] child;
+    public trieGraph[] next;
     public int wordsNum;
-    public boolean mark;
     public trieGraph trie;
     public trieGraph father;
-    public trieGraph[] next;
-    public char letter;
+    public boolean mark;
+    public char path;
 
-    public trieGraph(){
-        wordsNum=0;
-        child=new trieGraph[26];
-        next=new trieGraph[26];
-        this.mark=false;
-        father=this;
-        letter='#';
+    public trieGraph() {
+        wordsNum = 0;
+        trie = null;
+        next = new trieGraph[26];
+        child = new trieGraph[26];
+        father=null;
+        mark=false;
+        path='#';
     }
-    public trieGraph insert(char c){
-        this.wordsNum+=1;
-        if(this.child[c-'a']==null){
-            this.child[c-'a']=new trieGraph();
-            this.child[c-'a'].letter=c;
-            this.child[c-'a'].father=this;
+
+    public trieGraph insert(char c) {
+        this.wordsNum += 1;
+        if (this.child[c - 'a'] == null) {
+            this.child[c - 'a'] = new trieGraph();
+            this.child[c - 'a'].father=this;
+            this.child[c - 'a'].path=c;
         }
-        return this.child[c-'a'];
+        return this.child[c - 'a'];
     }
-    public void insert(String s){
-        trieGraph now=this;
-        for(int i=0;i<s.length();i++){
-            now=now.insert(s.charAt(i));
+
+    public void insert(String s) {
+        trieGraph now = this;
+        for (int i = 0; i < s.length(); i++) {
+            now = now.insert(s.charAt(i));
         }
-        now.wordsNum+=1;
+        now.wordsNum += 1;
         now.mark=true;
     }
-    public boolean lookup(String s){
-        trieGraph now=this;
-        for(int i=0;now!=null && i<s.length();i++){
-            if(now.mark) return true;
-            now=now.next[s.charAt(i)-'a'];
+
+    public String lookup(String s) {
+        trieGraph now = this;
+        for (int i = 0; now != null && i < s.length(); i++) {
+            now = now.next[s.charAt(i) - 'a'];
+            if(now.mark) return "YES";
         }
-        return false;
+        return "NO";
     }
 
     public void genNext(){
-        if(this==null) return;
-        if(this.father==this ){
+        if(this.father==null){
             this.trie=this;
-        }else if( this.father.father==this.father){
-            this.trie=this.father;
-        }
-        else{
-            this.trie=this.father.trie.next[this.letter-'a'];
-        }
-        for(int i=0;i<='z'-'a';i++){
-            if(this.child[i]==null){
-                if(this.father!=this){
-                    this.next[i]=this.trie.next[i];
-                }else {
+            for(int i=0;i<26;i++){
+                if(this.child[i]==null){
                     this.next[i]=this;
+                }else{
+                    this.next[i]=this.child[i];
                 }
+            }
+            return;
+        }
+        if(this.father.father==null){
+            this.trie=this.father;
+        }else{
+            this.trie=this.father.trie.next[this.path-'a'];
+        }
+        if(this.trie.mark){
+            this.mark=true;
+        }
+        for(int i=0;i<26;i++){
+            if(this.child[i]==null){
+                this.next[i]=this.trie.next[i];
             }else{
                 this.next[i]=this.child[i];
             }
         }
     }
-
 }
