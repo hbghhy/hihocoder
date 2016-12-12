@@ -47,22 +47,22 @@ public class h1044 {
                     int tmp = dp[i - 1][j] + w[i];
                     if(tmp>dp[i][(j << 1)|1])dp[i][(j << 1)|1] = tmp;
                     if(tmp>ans) ans=tmp;
-                } else{
-                    if(dp[i - 1][j]>dp[i][(j << 1)]) dp[i][(j << 1)] = dp[i - 1][j];
-                    if(dp[i - 1][j]>ans) ans=dp[i - 1][j];
                 }
+                if(dp[i - 1][j]>dp[i][(j << 1)]) dp[i][(j << 1)] = dp[i - 1][j];
+                if(dp[i - 1][j]>ans) ans=dp[i - 1][j];
+
             }
         }
-        for(int i=m;i<n;i++){
+        for(int i=1;i<n;i++){
             for(int j=0;j<=mask;j++){
                 if(count((j<<1)&mask)<q) {
                     int tmp = dp[i - 1][j] + w[i];
                     if(dp[i][((j << 1) + 1)&mask]<tmp) dp[i][((j << 1) + 1)&mask]=tmp;
                     if(tmp>ans) ans=tmp;
-                } else{
-                    if(dp[i][((j << 1))&mask]<dp[i - 1][j]) dp[i][((j << 1))&mask] = dp[i - 1][j];
-                    if(dp[i - 1][j]>ans) ans=dp[i - 1][j];
                 }
+                if(dp[i][((j << 1))&mask]<dp[i - 1][j]) dp[i][((j << 1))&mask] = dp[i - 1][j];
+                if(dp[i - 1][j]>ans) ans=dp[i - 1][j];
+
             }
         }
         System.out.println(ans);
